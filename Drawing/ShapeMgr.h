@@ -19,7 +19,7 @@ public:
 	// Default Constructor
 	ShapeMgr()
 	{
-		shapes = { };
+
 	}
 
 	// Function: addShape, adds a shape to the vector of DrawingShape pointers
@@ -31,21 +31,11 @@ public:
 	{
 		if (whichShape == CIRCLE)
 		{
-			CircleShape circ;
-			circ.setPosition(pos);
-			circ.setRadius(10);
-			circ.setFillColor(color);
-			Circle newCirc(circ);
-			shapes.push_back(&newCirc);
+			shapes.push_back(new Circle(pos, color));
 		}
 		else if (whichShape == SQUARE)
 		{
-			RectangleShape rect;
-			rect.setPosition(pos);
-			rect.setSize(Vector2f(20, 20));
-			rect.setFillColor(color);
-			Square newRect(rect);
-			shapes.push_back(&newRect);
+			shapes.push_back(new Square(pos, color));
 		}
 	}
 
@@ -59,4 +49,26 @@ public:
 		return shapes;
 	}
 
+	// Function: readFromFile, reads the shapes from the file
+	// Parameters:
+	// file: reference to an fstream object to read to
+	// Return: none
+	void readFromFile(fstream &file)
+	{
+		ShapeInfo insideShape;
+		while (file.read(reinterpret_cast<char*>(&insideShape), sizeof(insideShape)));
+			addShape(Vector2f(insideShape.x, insideShape.y), insideShape.shape, Color(insideShape.currentColor));
+	}
+
+	// Function: writeFromFile, writes shapes to the file
+	// Parameters:
+	// file: reference to an fstream object to write to
+	// Return: none
+	void writeToFile(fstream &file)
+	{
+		for (int i = 0; i < shapes.size(); i++)
+		{
+			file.write(reinterpret_cast<char*>(&shapes[i]->getRecordInfo()), sizeof(ShapeInfo));
+		}
+	}
 };

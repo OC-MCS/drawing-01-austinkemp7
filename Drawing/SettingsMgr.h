@@ -58,4 +58,28 @@ public:
 	{
 		curShape = newShape;
 	}
+
+	// Function: readFromFile, reads the color and shape settings from the file
+	// Parameters:
+	// file: reference to an fstream object to read to
+	// Return: none
+	void readFromFile(fstream& file)
+	{
+		unsigned int colorSetting;
+		file.read(reinterpret_cast<char*>(&colorSetting), sizeof(unsigned int));
+		file.read(reinterpret_cast<char*>(&curShape), sizeof(ShapeEnum));
+		curColor = Color(colorSetting);
+	}
+
+	// Function: writeFromFile, writes the color and shape settings from the
+	// file
+	// Parameters:
+	// file: reference to an fstream object to write to
+	// Return: none
+	void writeToFile(fstream& file)
+	{
+		unsigned int colorSetting = curColor.toInteger();
+		file.write(reinterpret_cast<char*>(&colorSetting), sizeof(unsigned int));
+		file.read(reinterpret_cast<char*>(&curShape), sizeof(ShapeEnum));
+	}
 };

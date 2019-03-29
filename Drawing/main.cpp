@@ -29,6 +29,14 @@ int main()
 	DrawingUI   drawingUI(Vector2f(200, 50));
 	
 	// ********* Add code here to make the managers read from shapes file (if the file exists)
+	fstream inFile;
+	inFile.open("shapes.bin", ios::in | ios::binary);
+	if (inFile)
+	{
+		settingsMgr.readFromFile(inFile);
+		shapeMgr.readFromFile(inFile);
+	}
+	inFile.close();
 
 	while (window.isOpen()) 
 	{
@@ -39,6 +47,11 @@ int main()
 			{
 				window.close();
 				// ****** Add code here to write all data to shapes file
+				fstream outToFile;
+				outToFile.open("shapes.bin", ios::out | ios::binary);
+				settingsMgr.writeToFile(outToFile);
+				shapeMgr.writeToFile(outToFile);
+				outToFile.close();
 			}
 			else if (event.type == Event::MouseButtonReleased)
 			{

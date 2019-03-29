@@ -49,27 +49,22 @@ public:
 		if (redBtn.getGlobalBounds().contains(mouse))
 		{
 			manager->setCurColor(Color::Red);
-			redBtn.setFillColor(Color::Red);
 		}
 		if (greenBtn.getGlobalBounds().contains(mouse))
 		{
 			manager->setCurColor(Color::Green);
-			greenBtn.setFillColor(Color::Green);
 		}
 		if (blueBtn.getGlobalBounds().contains(mouse))
 		{
 			manager->setCurColor(Color::Blue);
-			blueBtn.setFillColor(Color::Blue);
 		}
 		if (circleBtn.getGlobalBounds().contains(mouse))
 		{
 			manager->setShape(ShapeEnum::CIRCLE);
-			circleBtn.setOutlineColor(Color::Magenta);
 		}
 		if (squareBtn.getGlobalBounds().contains(mouse))
 		{
 			manager->setShape(ShapeEnum::SQUARE);
-			circleBtn.setOutlineColor(Color::Magenta);
 		}
 	}
 
@@ -100,7 +95,6 @@ public:
 
 		// The following renders the circle on the screen
 		// win is a RenderWindow (see provided code)
-		win.draw(redBtn);
 
 		Vector2f greenPos(90, 135);
 		greenBtn.setPosition(greenPos);
@@ -108,8 +102,6 @@ public:
 		greenBtn.setOutlineThickness(2);
 		greenBtn.setOutlineColor(Color::Green);
 		greenBtn.setFillColor(Color::Transparent);
-
-		win.draw(greenBtn);
 
 		Vector2f bluePos(90, 190);
 		blueBtn.setPosition(bluePos);
@@ -119,8 +111,6 @@ public:
 		// for just an outlined button
 		blueBtn.setFillColor(Color::Transparent);
 
-		win.draw(blueBtn);
-
 		Text shapeTitle("Selected Shape", font, 25);
 		shapeTitle.setPosition(30, 250);
 		win.draw(shapeTitle);
@@ -129,19 +119,47 @@ public:
 		circleBtn.setPosition(circlePos);
 		circleBtn.setRadius(20);
 		circleBtn.setOutlineThickness(2);
-		circleBtn.setFillColor(Color::White);
-
-		win.draw(circleBtn);
+		circleBtn.setOutlineColor(Color::White);
 		
 		Vector2f sqPos(90, 360);
 		squareBtn.setPosition(sqPos);
 		squareBtn.setOutlineColor(Color::White);
 		squareBtn.setOutlineThickness(2);
 		squareBtn.setSize(Vector2f(40, 40));
-		squareBtn.setFillColor(Color::White);
+		squareBtn.setOutlineColor(Color::White);
 
-		// renders a RectangleShape
+		Color col = manager->getCurColor();
+		if (col == Color::Red)
+		{
+			redBtn.setFillColor(Color::Red);
+		}
+		else if (col == Color::Green)
+		{
+			greenBtn.setFillColor(Color::Green);
+		}
+		else if (col == Color::Blue)
+		{
+			blueBtn.setFillColor(Color::Blue);
+		}
+
+		win.draw(redBtn);
+		win.draw(greenBtn);
+		win.draw(blueBtn);
+
+		ShapeEnum curShape = manager->getCurShape();
+		if (curShape == CIRCLE)
+		{
+			circleBtn.setFillColor(Color::White);
+		}
+		else if (curShape == SQUARE)
+		{
+			squareBtn.setFillColor(Color::White);
+		}
+
+		win.draw(circleBtn);
 		win.draw(squareBtn);
+
+
 
 	}
 
